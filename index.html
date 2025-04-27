@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Robot Control</title>
+  <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+    button {
+      margin: 10px;
+      padding: 15px;
+      font-size: 18px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Robot Control</h1>
+
+  <button id="forward" onclick="sendCommand('0')">Forward</button>
+  <button id="backward" onclick="sendCommand('4')">Backward</button>
+  <button id="left" onclick="sendCommand('1')">Left</button>
+  <button id="right" onclick="sendCommand('3')">Right</button>
+  <button id="stop" onclick="sendCommand('2')">Stop</button>
+
+  <script>
+    // Connect to the MQTT broker
+    const client = mqtt.connect('wss://test.mosquitto.org:8081');
+
+    // Define the MQTT topic to which we will publish
+    const topic = 'robot/movementplayer3';
+
+    // Handle the MQTT connection
+    client.on('connect', function () {
+      console.log('Connected to MQTT broker');
+    });
+
+    // Send a command to the bot
+    function sendCommand(command) {
+      console.log('Sending command:', command);
+      client.publish(topic, command); // Publish the command to the topic
+    }
+  </script>
+
+</body>
+</html>
